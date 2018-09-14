@@ -1,5 +1,6 @@
 # Cache
 comics_cache.sqlite
+.pytest_cache/
 
 # Package manager, logs, local configs
 .env
