@@ -1,10 +1,16 @@
 from flask import request as req, jsonify, Blueprint
 from gcomics_scrape.utils import prepare_comics_list, prepare_comic_dict
+from datetime import datetime
 import requests
+import requests_cache
+from requests_cache import core as requests_cache_core
 
 BASE_URL = 'https://getcomics.info/wp-json/wp/v2/posts'
-api_v1 = Blueprint('api_v1', __name__)
 
+requests_cache.install_cache('comics_cache', expire_after=900)
+requests_cache_core.remove_expired_responses()
+
+api_v1 = Blueprint('api_v1', __name__)
 
 @api_v1.route('/comics')
 def latest_comics():
@@ -12,7 +18,7 @@ def latest_comics():
         'per_page': req.args.get('limit', None),
         'page': req.args.get('page', None),
         'orderby': 'date',
-        'context': 'embed'
+        '_embed': True
     }
     r = requests.get(BASE_URL, params=payload)
     r.raise_for_status()
@@ -32,7 +38,7 @@ def search_comics():
         'per_page': req.args.get('limit', None),
         'page': req.args.get('page', None),
         'orderby': 'relevance',
-        'context': 'embed'
+        '_embed': True
     }
     r = requests.get(BASE_URL, params=payload)
     r.raise_for_status()
