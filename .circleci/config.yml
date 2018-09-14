@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/message-wall
+    working_directory: ~/repo
     docker:
       - image: circleci/python:3.6.6
     steps:
