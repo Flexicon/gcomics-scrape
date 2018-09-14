@@ -1,0 +1,12 @@
+# Package manager, logs, local configs
+Pipfile.lock
+.env
+
+# Dists and builds
+.Python
+build/
+dist/
+
+# IDE stuff
+.vscode/
+.idea/
