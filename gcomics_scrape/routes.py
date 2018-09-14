@@ -1,9 +1,11 @@
-from flask import request as req, jsonify, Blueprint
-from gcomics_scrape.utils import prepare_comics_list, prepare_comic_dict
-from datetime import datetime
 import requests
 import requests_cache
+
+from flask import request as req, jsonify, Blueprint
+from datetime import datetime
 from requests_cache import core as requests_cache_core
+
+from gcomics_scrape.utils import prepare_comics_list, prepare_comic_dict
 
 BASE_URL = 'https://getcomics.info/wp-json/wp/v2/posts'
 
