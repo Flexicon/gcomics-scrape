@@ -13,7 +13,7 @@ jobs:
       - run: # install and activate virtual environment with pipenv
           name: Install dependencies
           command: |
-            pipenv install
+            pipenv install --dev
       - save_cache: # special step to save dependency cache
           key: deps1-{{ .Branch }}-{{ checksum "Pipfile" }}
           paths:

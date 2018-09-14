@@ -3,7 +3,6 @@ comics_cache.sqlite
 .pytest_cache/
 
 # Package manager, logs, local configs
-Pipfile.lock
 .env
 
 # Dists and builds
