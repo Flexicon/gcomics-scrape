@@ -7,6 +7,25 @@ api_v1 = Blueprint('api_v1', __name__)
 
 
 @api_v1.route('/comics')
+def latest_comics():
+    payload = {
+        'per_page': req.args.get('limit', None),
+        'page': req.args.get('page', None),
+        'orderby': 'date',
+        'context': 'embed'
+    }
+    r = requests.get(BASE_URL, params=payload)
+    r.raise_for_status()
+    data = r.json()
+
+    return jsonify({
+        'data': prepare_comics_list(data),
+        'total': r.headers['X-WP-Total'],
+        'totalPages': r.headers['X-WP-TotalPages']
+    })
+
+
+@api_v1.route('/comics/search')
 def search_comics():
     payload = {
         'search': req.args.get('search', None),

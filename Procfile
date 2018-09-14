@@ -1,0 +1,1 @@
+web: gunicorn gcomics_scrape:app
