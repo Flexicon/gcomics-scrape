@@ -13,7 +13,6 @@ jobs:
       - run: # install and activate virtual environment with pipenv
           name: Install dependencies
           command: |
-            python3 -m pipenv shell
             pipenv install
       - save_cache: # special step to save dependency cache
           key: deps1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
@@ -22,4 +21,4 @@ jobs:
       - run:
           name: Run tests
           command: |
-            pytest
+            pipenv run pytest
