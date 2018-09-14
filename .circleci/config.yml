@@ -21,4 +21,6 @@ jobs:
       - run:
           name: Run tests
           command: |
+            pipenv --venv
+            pipenv run pylint tests
             pipenv run pytest
