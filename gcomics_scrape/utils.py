@@ -10,6 +10,7 @@ def prepare_comic_dict(data):
     title = bs(data['title']['rendered'], 'html.parser').string
     links = bs(data['content']['rendered'], 'html.parser').find_all('a') if data.get('content') else []
     paragraphs = bs(data['excerpt']['rendered'], 'html.parser').find_all('p') if data.get('excerpt') else []
+    images = data['_embedded']['wp:featuredmedia'][0]['media_details']['sizes'] if data.get('_embedded') else None
 
     return {
         'id': data['id'],
@@ -17,6 +18,7 @@ def prepare_comic_dict(data):
         'date': data['date'],
         'excerpt': '\n'.join(map((lambda p: p.getText()), paragraphs)),
         'title': title,
-        'image_url': data['_embedded']['wp:featuredmedia'][0]['link'] if data.get('_embedded') else None,
+        'image_url': images['full'] if images else None,
+        'thumb_url': images['medium'] if images else None,
         'download_url': reduce((lambda x, y: y.get('href') if y.get('title') == 'Download Now' else x), links, None)
     }
