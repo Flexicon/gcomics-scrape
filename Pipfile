@@ -8,6 +8,7 @@ flask = "*"
 "beautifulsoup4" = "*"
 requests = "*"
 gunicorn = "*"
+requests-cache = "*"
 
 [dev-packages]
 pylint = "<2.0.0"
