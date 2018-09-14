@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/message-wall
+    docker:
+      - image: circleci/python:3.6.6
+    steps:
+      - add_ssh_keys
+      - checkout
+      - restore_cache:
+          keys:
+            - deps1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+      - run: # install and activate virtual environment with pipenv
+          name: Install dependencies
+          command: |
+            python3 -m pipenv shell
+            pipenv install
+      - save_cache: # special step to save dependency cache
+          key: deps1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          paths:
+            - 'venv'
+      - run:
+          name: Run tests
+          command: |
+            pytest
