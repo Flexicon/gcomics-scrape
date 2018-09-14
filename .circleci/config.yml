@@ -1,0 +1,24 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/python:3.6.6
+    steps:
+      - add_ssh_keys
+      - checkout
+      - restore_cache:
+          keys:
+            - deps1-{{ .Branch }}-{{ checksum "Pipfile" }}
+      - run: # install and activate virtual environment with pipenv
+          name: Install dependencies
+          command: |
+            pipenv install --dev
+      - save_cache: # special step to save dependency cache
+          key: deps1-{{ .Branch }}-{{ checksum "Pipfile" }}
+          paths:
+            - 'venv'
+      - run:
+          name: Run tests
+          command: |
+            pipenv run pytest
