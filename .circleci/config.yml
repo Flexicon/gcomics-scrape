@@ -9,18 +9,16 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - deps1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+            - deps1-{{ .Branch }}-{{ checksum "Pipfile" }}
       - run: # install and activate virtual environment with pipenv
           name: Install dependencies
           command: |
             pipenv install
       - save_cache: # special step to save dependency cache
-          key: deps1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          key: deps1-{{ .Branch }}-{{ checksum "Pipfile" }}
           paths:
             - 'venv'
       - run:
           name: Run tests
           command: |
-            pipenv --venv
-            pipenv run pylint tests
             pipenv run pytest
