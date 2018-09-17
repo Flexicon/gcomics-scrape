@@ -1,7 +1,7 @@
 import requests
 import requests_cache
 
-from flask import request as req, jsonify, Blueprint
+from flask import request as req, jsonify, Blueprint, abort
 from datetime import datetime
 from requests_cache import core as requests_cache_core
 
@@ -28,6 +28,7 @@ def latest_comics():
 
     return jsonify({
         'data': prepare_comics_list(data),
+        'from_cache': r.from_cache,
         'total': r.headers['X-WP-Total'],
         'totalPages': r.headers['X-WP-TotalPages']
     })
@@ -35,8 +36,13 @@ def latest_comics():
 
 @api_v1.route('/comics/search')
 def search_comics():
+    q = req.args.get('q', None)
+
+    if (not q):
+        abort(400)
+
     payload = {
-        'search': req.args.get('search', None),
+        'search': q,
         'per_page': req.args.get('limit', None),
         'page': req.args.get('page', None),
         'orderby': 'relevance',
@@ -48,6 +54,7 @@ def search_comics():
 
     return jsonify({
         'data': prepare_comics_list(data),
+        'from_cache': r.from_cache,
         'total': r.headers['X-WP-Total'],
         'totalPages': r.headers['X-WP-TotalPages']
     })
@@ -60,4 +67,7 @@ def get_comic(comic_id):
     r.raise_for_status()
     data = r.json()
 
-    return jsonify(prepare_comic_dict(data))
+    return jsonify({
+        'data': prepare_comic_dict(data),
+        'from_cache': r.from_cache
+    })
