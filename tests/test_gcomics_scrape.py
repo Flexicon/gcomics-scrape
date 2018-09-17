@@ -14,5 +14,5 @@ def client():
 def test_hello(client):
     """Check if api hello message appears"""
 
-    r = client.get('/')
+    r = client.get('/api')
     assert r.get_json().get('msg') != None
