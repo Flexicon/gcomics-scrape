@@ -19,6 +19,10 @@ jobs:
           paths:
             - 'venv'
       - run:
+          name: Run linter
+          command: |
+            pipenv run pylint gcomics_scrape
+      - run:
           name: Run tests
           command: |
             pipenv run pytest

@@ -8,8 +8,8 @@ from flask import request as req, jsonify, Blueprint, abort
 from gcomics_scrape.utils import prepare_comics_list, prepare_comic_dict
 
 # Setup cache
-requests_cache.install_cache('comics_cache', expire_after=900)
-requests_cache_core.remove_expired_responses()
+# requests_cache.install_cache('comics_cache', expire_after=900)
+# requests_cache_core.remove_expired_responses()
 
 # Blueprint and base url of the comics api
 API_V1 = Blueprint('api_v1', __name__)
@@ -32,9 +32,10 @@ def latest_comics():
 
     return jsonify({
         'data': prepare_comics_list(data),
-        'from_cache': res.from_cache,
-        'total': res.headers['X-WP-Total'],
-        'totalPages': res.headers['X-WP-TotalPages']
+        'from_cache': res.from_cache if hasattr(res, 'from_cache') else False,
+        'params': payload,
+        'total': res.headers.get('X-WP-Total'),
+        'totalPages': res.headers.get('X-WP-TotalPages')
     })
 
 
@@ -60,6 +61,7 @@ def search_comics():
     return jsonify({
         'data': prepare_comics_list(data),
         'from_cache': res.from_cache,
+        'params': payload,
         'total': res.headers['X-WP-Total'],
         'totalPages': res.headers['X-WP-TotalPages']
     })

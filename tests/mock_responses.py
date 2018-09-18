@@ -1,9 +1,8 @@
 """ Mocked comics API responses """
 
 COMICS_HEADERS = {
-    'content-type': 'application/json',
-    'X-WP-Total': 1000,
-    'X-WP-TotalPages': 84
+    'X-WP-Total': '1000',
+    'X-WP-TotalPages': '84'
 }
 
 COMICS_RESPONSE = [
