@@ -1,1 +1,1 @@
-web: gunicorn gcomics_scrape:app
+web: gunicorn gcomics_scrape:APP
