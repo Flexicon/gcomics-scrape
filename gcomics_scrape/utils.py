@@ -1,5 +1,7 @@
-from bs4 import BeautifulSoup as bs
+"""Utility functions"""
+
 from functools import reduce
+from bs4 import BeautifulSoup as bs
 
 
 def prepare_comics_list(data):
