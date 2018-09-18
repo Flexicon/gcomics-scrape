@@ -1,15 +1,8 @@
 """Application routing"""
 
 import requests
-import requests_cache
-from requests_cache import core as requests_cache_core
 from flask import request as req, jsonify, Blueprint, abort
-
 from gcomics_scrape.utils import prepare_comics_list, prepare_comic_dict
-
-# Setup cache
-# requests_cache.install_cache('comics_cache', expire_after=900)
-# requests_cache_core.remove_expired_responses()
 
 # Blueprint and base url of the comics api
 API_V1 = Blueprint('api_v1', __name__)
