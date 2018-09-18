@@ -1,0 +1,5 @@
+[TYPECHECK]
+ignored-classes= responses
+
+[FORMAT]
+max-line-length=120

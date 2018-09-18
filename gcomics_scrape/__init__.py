@@ -1,19 +1,30 @@
+"""GComics API to commmunicate with and parse comics sources"""
+
+import requests_cache
+from requests_cache import core as requests_cache_core
 from flask import Flask, jsonify
 from werkzeug.exceptions import HTTPException
-from gcomics_scrape.routes import api_v1
+from gcomics_scrape.routes import API_V1
 
-app = Flask(__name__)
-app.register_blueprint(api_v1, url_prefix='/api/v1')
+APP = Flask(__name__)
+APP.register_blueprint(API_V1, url_prefix='/api/v1')
+
+# Setup cache
+requests_cache.install_cache('comics_cache', expire_after=900)
+requests_cache_core.remove_expired_responses()
 
 
-@app.route('/api')
+@APP.route('/api')
 def index():
+    """Display api information"""
     return jsonify({'msg': 'comics api', 'versions': ['v1'], 'resources': ['comics']})
 
 
-@app.errorhandler(Exception)
-def handle_error(e):
+@APP.errorhandler(Exception)
+def handle_error(err):
+    """Global application error handler"""
+
     code = 500
-    if isinstance(e, HTTPException):
-        code = e.code
-    return jsonify(error=str(e)), code
+    if isinstance(err, HTTPException):
+        code = err.code
+    return jsonify(error=str(err)), code

@@ -1,12 +1,16 @@
-from bs4 import BeautifulSoup as bs
+"""Utility functions"""
+
 from functools import reduce
+from bs4 import BeautifulSoup as bs
 
 
 def prepare_comics_list(data):
+    """Return a new list of prepared comics"""
     return list(map(prepare_comic_dict, data))
 
 
 def prepare_comic_dict(data):
+    """Maps raw comic data to a comic dict ready for serving"""
     title = bs(data['title']['rendered'], 'html.parser').string
     links = bs(data['content']['rendered'], 'html.parser').find_all('a') if data.get('content') else []
     paragraphs = bs(data['excerpt']['rendered'], 'html.parser').find_all('p') if data.get('excerpt') else []
