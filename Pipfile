@@ -11,7 +11,7 @@ gunicorn = "*"
 requests-cache = "*"
 
 [dev-packages]
-pylint = "<2.0.0"
+pylint = "<3.0.0"
 "autopep8" = "*"
 pytest = "*"
 responses = "*"
